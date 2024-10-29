@@ -78,8 +78,8 @@ levels = {
         }
     },
     11: {
-        'description': "На двери кодовый замок, тебе нужно найти ключ.",
-        'actions': ['поискать ключ'],
+        'description': "Просто открой дверь тут нет никакого подвоха.",
+        'actions': ['открыть дверь'],
         'puzzle': "Ключ спрятан под предметом, который начинается на 'л'. Что это за предмет?",
         'answer': 'ломик'
     },
@@ -112,25 +112,22 @@ def process_command(level, command):
         if item not in inventory:
             print(f"Ты взял {item}.")
             inventory.append(item)
-    elif command == 'открыть дверь' or 'идти дальше':
-        if level == 1 or 'ключ' or 'ломик' or 'дробовик' in inventory:
+    elif command == 'открыть дверь' or command == 'идти дальше':
+        if level == 1 or 'ключ' in inventory or 'ломик' in inventory or 'дробовик' in inventory:
             print("Дверь открыта! Переходишь на следующий уровень.")
             solved_puzzles.add(level)
         else:
             print("Дверь заперта, и у тебя нет ключа.")
-
     elif command == 'спуститься':
-        print("Вы аккуратно спускаетесь но вдуг старая лестница рушиться и вы падаете в темный подвал и теряете сознание. Вас находит маньяк и убивает.")
+        print("Вы аккуратно спускаетесь, но вдруг старая лестница рушится, и вы падаете в темный подвал и теряете сознание. Вас находит маньяк и убивает.")
         game_over = True
-
-    elif command == 'ввести код' :
+    elif command == 'ввести код':
         answer = input(f"Реши задачу: {level_info['puzzle']} ")
         if answer == level_info['answer']:
             print("Верно! Дверь открыта.")
             solved_puzzles.add(level)
         else:
             print("Неверный код.")
-
     elif command in level_info.get('options', {}):
         outcome = level_info['options'][command]
         print(outcome)
@@ -145,7 +142,6 @@ def process_command(level, command):
         show_inventory()
     else:
         print("Неверная команда. Попробуй снова.")
-
 
 def play_level(level):
     global game_over

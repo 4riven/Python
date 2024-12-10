@@ -9,7 +9,7 @@ game_over = False
 levels = {
     1: {
         'description': "Ты в холодной комнате с единственной дверью. На полу лежит старый ключ.",
-        'actions': ['осмотреться', 'взять ключ', 'открыть дверь'],
+        'actions': ['осмотреться', 'взять ключ', 'открыть дверь', 'открыть инвентарь',],
         'hint': "Используй ключ.",
         'item': 'ключ'
     },
@@ -89,8 +89,8 @@ levels = {
         'item_needed': 'ломик'
     },
     13: {
-        'description': "Поздравляем! Ты выбрался из дома маньяка!",
-        'actions': []
+        'description': "Поздравляем! Ты выбрался из дома маньяка! Открой последюю дверь и заверши игру.",
+        'actions': ['открыть дверь']
     }
 }
 
@@ -112,7 +112,7 @@ def process_command(level, command):
         if item not in inventory:
             print(f"Ты взял {item}.")
             inventory.append(item)
-    elif command == 'открыть дверь' or command == 'идти дальше':
+    elif command == 'открыть дверь' or command == 'идти дальше' :
         if level == 1 or 'ключ' in inventory or 'ломик' in inventory or 'дробовик' in inventory:
             print("Дверь открыта! Переходишь на следующий уровень.")
             solved_puzzles.add(level)
@@ -138,7 +138,7 @@ def process_command(level, command):
     elif command == 'использовать ломик' and 'ломик' in inventory:
         print("Ломик помог открыть дверь. Ты прошел уровень.")
         solved_puzzles.add(level)
-    elif command == 'инвентарь':
+    elif command == 'открыть инвентарь':
         show_inventory()
     else:
         print("Неверная команда. Попробуй снова.")
@@ -150,7 +150,7 @@ def play_level(level):
 
     while level not in solved_puzzles and not game_over:
         print("Доступные действия:", ', '.join(level_info['actions']))
-        command = input("Твой ход: ").strip().lower()
+        command = input("Ваши действия: ").strip().lower()
         process_command(level, command)
 
     if game_over:
